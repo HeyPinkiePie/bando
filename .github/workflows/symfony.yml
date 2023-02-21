@@ -2,7 +2,7 @@ name: Symfony
 
 on:
   pull_request:
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 permissions:
   contents: write
@@ -45,20 +45,28 @@ jobs:
       - name: Mise a jour du schéma de la base de données
         run: php bin/console d:s:u --force --env=test
       - name: Chargement des fixtures
-        run: php bin/console d:f:l --env=test
+        run: php bin/console d:f:l --env=test --no-interaction
       - name: Installation de tout ce qui concerne JavaScript
-        run: npm install
+        run: php -r "!file_exists('package.json') || exec('npm install');"
       - name: Construction du dossier "public"
-        run: npm run dev
+        run: php -r "!file_exists('package.json') || exec('npm run dev');"
+      - name: Ajout du paquet phpunit-coverage-check
+        run: composer req --dev rregeer/phpunit-coverage-check
       - name: Execution des tests
         env:
           DATABASE_URL: sqlite:///%kernel.project_dir%/var/data.db
         run: vendor/bin/phpunit
-      - name: phpunit-coverage-badge
-        uses: timkrase/phpunit-coverage-badge@v1.2.0
-        with:
-          coverage_badge_path: 'badge.svg'
-          push_badge: true
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          commit_name: 'GitHub CI/CD'
-          commit_message: 'MAJ du badge de couverture de code'
+      - name: Execution du paquet sus-nommé
+        run: vendor/bin/coverage-check clover.xml 1 --only-percentage > pourcentage.txt
+      - name: Creation du badge
+        run: |
+          echo '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="108" height="20" role="img"><linearGradient id="s" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="r"><rect width="108" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#r)"><rect width="63" height="20" fill="#555"/><rect x="63" width="45" height="20" fill="#e05d44"/><rect width="108" height="20" fill="url(#s)"/></g><g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="110"><text aria-hidden="true" x="315" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="530">coverage</text><text x="315" y="140" transform="scale(.1)" fill="#fff" textLength="530">coverage</text><text aria-hidden="true" x="850" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="350">' > badge.svg
+          head -c 2 pourcentage.txt >> badge.svg
+          echo " %" >> badge.svg
+          echo '</text><text x="850" y="140" transform="scale(.1)" fill="#fff" textLength="350">' >> badge.svg
+          head -c 2 pourcentage.txt >> badge.svg
+          echo " %" >> badge.svg
+          echo '</text></g></svg>' >> badge.svg
+          rm pourcentage.txt
+          rm clover.xml
+      - uses: stefanzweifel/git-auto-commit-action@v4
