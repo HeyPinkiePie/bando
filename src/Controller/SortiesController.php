@@ -46,7 +46,8 @@ class SortiesController extends AbstractController
             $form->handleRequest($request);
 
             // Si le formulaire a été soumis et est valide
-            if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->isSubmitted() ) {
+               // if ($form->isSubmitted() && $form->isValid()) {
                 // Récupération des données du formulaire
                 $data = [
                     'nom' => $form->get('nom')->getData(),

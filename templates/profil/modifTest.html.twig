@@ -1,0 +1,47 @@
+<div id="champFlash">
+    {% for label, messages in  app.flashes  %}
+        {% for message in messages %}
+            <div class="alert-{{ label }}">{{ message }}</div>
+        {% endfor %}
+    {% endfor %}
+</div>
+<h1 class="titre_modification_profil">Modification de votre profil</h1>
+<div class="form">
+    {{ form_start(profilForm) }}
+    {% if stagiaire.image%}
+    <img class="photo_stagiaire" src="{{vich_uploader_asset(app.user, 'imageFile')}}">
+    {% else %}
+    <img class="photo_stagiaire" src="{{asset('/images/stagiaires_no_photo.jpg')}}">
+    {% endif %}
+    {{ form_row(profilForm.nom) }}
+    {{ form_row(profilForm.prenom) }}
+    {{ form_row(profilForm.telephone) }}
+    {{ form_row(profilForm.email) }}
+    {{ form_row(profilForm.campus)}}
+    {{ form_row(profilForm.currentPassword) }}
+    {{ form_row(profilForm.password) }}
+    {{ form_row(profilForm.imageFile) }}
+    <div class="button_set">
+        <div class="btn_envoyer">{{ form_row(profilForm.Envoyer) }}</div>
+        <div class="btn_annuler">
+            <a href="{{ path('sorties_liste') }}">
+                <button class="btn waves-effect waves-light">Annuler</button>
+            </a>
+        </div>
+    </div>
+    {{ form_end(profilForm) }}
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

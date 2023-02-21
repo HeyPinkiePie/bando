@@ -1,19 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Connectez vous!{% endblock %}
 
 {% block body %}
     <form method="post">
         {% if error %}
             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
-
         {% if app.user %}
             <div class="mb-3">
                 Vous êtes connecté.e en tant que {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Déconnexion</a>
             </div>
         {% endif %}
-
+        {% block nav %}
+        {% endblock %}
         <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
         <label for="inputEmail">Identifiant</label>
         <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control"
@@ -22,16 +22,18 @@
         <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password"
                required>
         <label>
-            <input type="checkbox" name="_remember_me" checked/>
+            <input type="checkbox" class="filled-in" name="_remember_me" checked/>
             Se souvenir de moi
         </label>
-
+        </br>
+        </br>
         <a href="{{ path('app_forgot_password_request') }}">Mot de passe oublié ?</a>
 
         <input type="hidden" name="_csrf_token"
                value="{{ csrf_token('authenticate') }}"
         >
-
+        </br>
+        </br>
         <button class="btn btn-lg btn-primary" type="submit">
             Se connecter
         </button>

@@ -23,9 +23,10 @@ class SortieFormType extends AbstractType
         $todayPlus4h = $today->add(new \DateInterval('PT4H'));
 
         $builder
-            ->add('nom')
+         //   ->add('nom',null,['mapped'=>false,'attr' => ['class' => 'input-field inline']])
+            ->add('nom',null)
             ->add('debutSortie',DateTimeType::class,
-                [
+                [ 'date_widget'=>'single_text',
                 'required' => true,
                     'invalid_message' => 'La sortie ne peut pas être antérieure à aujourdhui.',
                     'constraints' => [
@@ -35,7 +36,7 @@ class SortieFormType extends AbstractType
                         ])]    ]
             )
             ->add('dateLimiteInscription',DateTimeType::class,
-                [
+                ['date_widget'=>'single_text',
                 'required' => true,
                 'invalid_message' => 'La date limite ne peut pas être antérieure à aujourdhui.',
                    ])
@@ -49,7 +50,7 @@ class SortieFormType extends AbstractType
                 'class' => Campus::class,
                 'choice_label' => 'nom',
                 'placeholder' => 'Sélectionner un campus',
-                'required' => false
+                'required' => false,
             ])
         ;
     }

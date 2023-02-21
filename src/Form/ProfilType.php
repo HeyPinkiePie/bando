@@ -2,10 +2,12 @@
 
 namespace App\Form;
 
+use App\Entity\Campus;
 use App\Entity\Stagiaire;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -13,9 +15,6 @@ use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Polyfill\Intl\Idn\Resources\unidata\Regex;
 use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class ProfilType extends AbstractType
@@ -64,17 +63,18 @@ class ProfilType extends AbstractType
                 ],
                 'mapped' => false,
             ])
-            ->add('campus', null, [
-                'attr' => ['class' => 'profilCampus','readonly' => true],
+            ->add('campus', EntityType::class, [
+                'class'=>Campus::class,
+                'choice_label' => 'nom',
+                'placeholder' => 'Sélectionner un campus',
+                'required' => false,
+                'attr' => ['class' => 'input-field col s12']
             ])
-            ->add('url_photo', HiddenType::class,
-                [
-                    'attr' => ['visible' => 'hidden'],
-                ])
             ->add('imageFile', VichFileType::class, [
                 'required' => false,
                 'allow_delete' => false,
                 'download_label' => false,
+                'attr' => ['class' => 'img_profil'],
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',
@@ -88,7 +88,9 @@ class ProfilType extends AbstractType
                     ])
                 ]
             ])
-            ->add('Envoyer', SubmitType::class);
+            ->add('Envoyer', SubmitType::class, [
+                'attr' => ['class' => 'btn waves-effect waves-light'],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -1,18 +1,18 @@
 {% block navbar %}
-    <nav>
-        <div class="menu">
+    <div id="nav_bar">
+        <div id="menu_nav_bar">
             <button id="t1" class="touches_inactive">?</button>
-            <button id="t2" class="touches_active" onclick="window.location.href='{{path('admin') }}'">Admin</button>
-            <button id="t3" class="touches_active" onclick="window.location.href='{{path('profil_modif') }}'">Profil</button>
+            <button id="t2" class="touches_active" onclick="window.location.href='{{path('admin') }}'">Accès Admin</button>
+            <button id="t3" class="touches_active" onclick="window.location.href='{{path('profil_modif') }}'">Mon Profil</button>
             <button id="t4" class="touches_inactive">E</button>
             <button id="t5" class="touches_inactive">I</button>
             <button id="t6" class="touches_inactive">X</button>
             <button id="t7" class="touches_inactive">P</button>
-            <button id="t8" class="touches_inactive">N</button>
+            <button id="t8" class="touches_inactive" onclick="window.location.href='{{path('app_login')}}'">Connexion</button>
             <button id="t9" class="touches_active" onclick="window.location.href='{{path('sorties_liste')}}'"><span class="dollar">@</span> Sorties</button>
             <button id="t10" class="touches_inactive" onclick="window.location.href='{{path('app_logout') }}'"><img class="eject" src="{{ asset('/images/eject_icon.png') }}" alt=""><p>Echap</p></button>
             <p class="titre_company">BANDO</p>
             <p class="sous_titre_company">#758681</p>
         </div>
-    </nav>
+    </div>
 {% endblock %}

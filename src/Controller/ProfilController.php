@@ -2,10 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Stagiaire;
 use App\Form\ProfilType;
 use App\Repository\StagiaireRepository;
-use App\Services\EtatSorties;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,15 +11,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-
-use Symfony\Component\Validator\Mapping\ClassMetadata;
-
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\String\Slugger\SluggerInterface;
-
 
 class ProfilController extends AbstractController
-{    #[isGranted("ROLE_USER")]
+{
+    #[isGranted("ROLE_USER")]
     #[Route('/profil', name: 'profil_modif')]
     public function index(EntityManagerInterface $em, Request $request, StagiaireRepository $stagiaireRepository, UserPasswordHasherInterface $passwordHasher,SessionInterface $session): Response
     {

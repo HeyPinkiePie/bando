@@ -4,17 +4,36 @@
 
 {% block body %}
     <script src="{{ asset('JS/VillesEtLieux.js') }}"></script>
-
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-lg-10 col-md-12 col-sm-12">
     {% if modecree %}
-        <h1>Créer une sortie</h1>
+        <h3>Créer une sortie</h3>
     {% else %}
-        <h1>Modifier une sortie</h1>
+        <h3>Modifier une sortie</h3>
     {% endif %}
     {{ form_start(form) }}
     {{ form_row(form.nom) }}
-    {{ form_row(form.debutSortie) }}
-    <label for="duree" >Durée</label><input type="number" id="duree" name="duree" min="30"  step="10" value="30" required>minutes
-    {{ form_row(form.dateLimiteInscription) }}
+{#    {{ form_row(form.debutSortie) }}#}
+
+            <div class="row">
+                <label for="dateDeb" >Date de début</label>
+                <div class="input-field">
+                    {{ form_widget(form.debutSortie,{'attr': {'class': 'datepicker','name': 'debut','id':'dateDeb'}} )}}
+                </div>
+            </div>
+{#            <div class="input-field col s2">#}
+{#                {{ form_widget(form.debutSortie,{'attr': {'class': 'datepicker','name': 'debut'}} )}}#}
+{#            </div>#}
+
+    <label for="duree" >Durée en minutes</label><input type="number" id="duree" name="duree" min="30"  step="10" value="30" required>
+{#    {{ form_row(form.dateLimiteInscription) }}#}
+            <div class="row">
+                <label for="dateLimite" >Date limite d'inscription</label>
+                <div class="input-field">
+                    {{ form_widget(form.dateLimiteInscription,{'attr': {'class': 'datepicker','name': 'limite','id':'dateLimite'}} )}}
+                </div>
+            </div>
     {{ form_row(form.nombreInscriptionsMax) }}
     {{ form_row(form.infosSortie) }}
     {{ form_row(form.campus) }}
@@ -35,44 +54,40 @@
         </select>
     </label>
 {#    --------- section Lieux ------------#}
-    <label for="choixLieux"> Lieu
-        <select id="choixLieux" name="choixLieux"  required onchange="afficherUnLieu(value)">
-            <option  disabled selected>choisissez un lieu:</option>
-
-            {% for lieu in lieux %}
-                {% if lieu == leLieu %}
-                    <option value="{{ lieu.id }}" selected> {{ lieu.nom }}</option>
-                {% else %}
-                    <option value="{{ lieu.id }}"> {{ lieu.nom }}</option>
-                {% endif %}
-            {% endfor %}
-        </select>
-    </label>
-    <a href="{{ path('allerLieux') }}"><input type="button" name="creerLieu" value="+" ></a>
-
+    <section id="GestionDesLieu" class="GestionDesLieu container-fluid">
+        <label for="choixLieux"> Lieu
+            <select id="choixLieux" name="choixLieux"  required onchange="afficherUnLieu(value)">
+                <option  disabled selected>choisissez un lieu:</option>
+                {% for lieu in lieux %}
+                    {% if lieu == leLieu %}
+                        <option value="{{ lieu.id }}" selected> {{ lieu.nom }}</option>
+                    {% else %}
+                        <option value="{{ lieu.id }}"> {{ lieu.nom }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </label>
+        <a href="{{ path('allerLieux') }}" class="BtnAjouterLieu"><input type="button" name="creerLieu" value="+" class="btn btn-primary" ></a>
+    </section>
     <section id="afficheLieu"></section>
 
     {#--------- section boutons ------------#}
-    {% if modecree %}
-        <input type="submit" name="Creer" value="Creer">
-        {% if etat==1 %}
-            <input type="submit" name="Publier" value="Publier">
-        {% else %}
-            <input type="submit" name="Publier" value="Fermer">
-        {% endif %}
-
-    {% else %}
-        <input type="submit" name="Modifier" value="Modifier">
-        {% if etat==1 %}
-            <input type="submit" name="Publier" value="Publier">
-        {% else %}
-            <input type="submit" name="Publier" value="Fermer">
-        {% endif %}
-        <input type="submit" name="Supprimer" value="Supprimer">
-    {% endif %}
-
-    <a href="{{ path('sorties_liste') }}"><input type="button" name="Retour" value="Retour" ></a>
-    {{ form_end(form) }}
+            <section class="boutonEcranCreerSortie">
+                {% if modecree %}
+                    <input type="submit" name="Creer" value="Creer" class="btn btn-primary">
+                    <input type="submit" name="Publier" value="Publier" class="btn btn-primary">
+                {% else %}
+                    {% if etat==1 %}
+                        <input type="submit" name="Modifier" value="Modifier" class="btn btn-primary">
+                        <input type="submit" name="Supprimer" value="Supprimer" class="btn btn-primary">
+                    {% endif %}
+                {% endif %}
+                <a href="{{ path('sorties_liste') }}"><input type="button" name="Retour" value="Retour" class="btn btn-primary" ></a>
+                {{ form_end(form) }}
+            </section>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 

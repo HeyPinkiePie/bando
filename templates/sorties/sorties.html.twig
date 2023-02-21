@@ -4,27 +4,53 @@
 
 {% block body %}
 
-    <h1>Liste des sorties</h1>
+    <h3 class="titre_listes_sorties">Liste des sorties</h3>
 
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-lg-10 col-md-12 col-sm-12">
                 <section>
-                    <strong>Date du jour : </strong>{{ "now"|date("d/m/Y") }} <br>
-                    <strong>Participant : </strong>{{ app.user.nom }}
+                    <h6>Date du jour : {{ "now"|date("d/m/Y") }} </h6>
+                    <h6>Organisateur : {{ app.user.prenom }} {{ app.user.nom }}</h6>
                 </section>
+                <br/>
+                <h6>Recherche d'une sortie</h6>
                 {{ form_start(form) }}
-                {{ form_row(form.nom) }}
-                {{ form_row(form.debutSortie) }}
-                {{ form_row(form.finSortie) }}
+                <div class="input-field col s12">
+                    {{ form_widget(form.nom,{'attr': {'class': 'validate'}}) }}
+                    {{ form_label(form.nom) }}
+                    {{ form_errors(form.nom) }}
+                </div>
+                <div class="row">
+                    <div class="input-field col s2">
+                        {{ form_widget(form.debutSortie,{'attr': {'class': 'datepicker','name': 'debut'}} )}}
+                    </div>
+                    <div class="input-field col s2">
+                        {{ form_widget(form.finSortie,{'attr': {'class': 'datepicker'}} )}}
+                    </div>
+                </div>
                 {{ form_row(form.campus) }}
+                <br/>
+                <br/>
                 {{ form_row(form.organisateur) }}
+                <br/>
                 {{ form_row(form.inscrit) }}
+                <br/>
                 {{ form_row(form.non_inscrit) }}
+                <br/>
                 {{ form_row(form.sorties_passees) }}
+                <br/>
                 <button type="submit" class="btn btn-primary">Rechercher</button>
-                <a href="{{ path('sorties_liste') }}" class="btn btn-secondary">Effacer les filtres</a>
-                {{ form_end(form) }}
+                <a href="{{ path('sorties_liste') }}">
+                    {{ form_end(form) }}
+                    <button class="btn waves-effect waves-light">Effacer les filtres</button>
+                </a>
+
+                <a href="{{ path('sorties_creer') }}">
+                    <button class="btn waves-effect waves-light">Créer une sortie</button>
+                </a>
+                <br/>
+
                 <table class="table table-striped">
                     <thead>
                     <tr>
@@ -62,36 +88,28 @@
                                 {% endif %}
                             </td>
                             <td>{{ sortie.organisateur.nom }}</td>
-                            <td>
+                            <td class="icon_sorties">
                                 {% if sortie.etat == 1 %}
-
-                                    <a href="{{ path('accueil', {'id': sortie.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
-
+                                    <a href="{{ path('accueil', {'id': sortie.id}) }}" class="btn-floating blue"><i class="material-icons">mode_edit</i></a>
                                 {% endif %}
-                                <a href="{{ path('sorties_detail', {'id': sortie.id}) }}" class="btn btn-primary btn-sm">Afficher</a>
+                                <a href="{{ path('sorties_detail', {'id': sortie.id}) }}" class="btn-floating blue"><i class="material-icons">zoom_in</i></a>
                                 {% if app.user in sortie.participants and sortie.etat == 2 %}
-
-                                    <a href="{{ path('sorties_desistement', {'id': sortie.id}) }}" class="btn btn-danger btn-sm">Se désister</a>&nbsp;
+                                    <a href="{{ path('sorties_desistement', {'id': sortie.id}) }}" class="btn-floating red"><i class="material-icons">remove</i></a>&nbsp;
                                 {% endif %}
                                 {% if app.user not in sortie.participants and sortie.etat == 2 %}
-                                    <a href="{{ path('sorties_sinscrire', {'id': sortie.id}) }}" class="btn btn-success btn-sm">S'inscrire</a>&nbsp;
-
+                                    <a href="{{ path('sorties_sinscrire', {'id': sortie.id}) }}" class="btn-floating green"><i class="material-icons">add</i></a>&nbsp;
                                 {% endif %}
-
                             </td>
                         </tr>
                     {% endfor %}
                     </tbody>
                 </table>
-                <div class="text-center my-3">
-                    <a href="{{ path('sorties_creer') }}" class="btn btn-success">
-                        Créer une sortie
-                    </a>
-                </div>
             </div>
         </div>
     </div>
 {% endblock %}
+
+
 
 
 

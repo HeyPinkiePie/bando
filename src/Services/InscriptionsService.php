@@ -21,7 +21,10 @@ class InscriptionsService
         // Vérifier qu'il est possible de s'inscrire à la sortie
         // la sortie doit être à l'état 2
         if (!$sortie->getEtat()==\App\Entity\EtatSortiesEnum::Publiee->value)
-                $message="sortie a l'état".$sortie->getEtat();
+                $message="Sortie a l'état".$sortie->getEtat();
+        // la date d'inscription n'est pas dépassée
+        if ($sortie->getDateLimiteInscription() <=  new \DateTime('now'))
+            $message="La date limite d'inscrition est dépassée.";
 
         // le nb d'inscrits ne dépasse pas le nb max d'inscription
         if( $sortie->getParticipants()->count() >= $sortie->getNombreInscriptionsMax())
