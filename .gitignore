@@ -19,6 +19,8 @@
 ###> phpunit/phpunit ###
 /phpunit.xml
 .phpunit.result.cache
+clover.xml
+coveragehtml
 ###< phpunit/phpunit ###
 
 ###> symfony/webpack-encore-bundle ###

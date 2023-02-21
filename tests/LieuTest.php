@@ -2,10 +2,8 @@
 
 namespace App\Tests;
 
-use App\Entity\Campus;
 use App\Entity\Lieu;
 use App\Entity\Ville;
-use Exception;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Validation;
 
@@ -15,7 +13,7 @@ class LieuTest extends TestCase
     {
         $lieu=new Lieu();
         $lieu->setNom("bar truc");
-        $this->assertEquals($lieu->getNom(),"bar truc");
+        $this->assertEquals("bar truc", $lieu->getNom());
 
     }
     public function testNomKo(): void
@@ -42,7 +40,7 @@ class LieuTest extends TestCase
     {
         $lieu=new Lieu();
         $lieu->setRue("rue Franklin");
-        $this->assertEquals($lieu->getRue(),"rue Franklin");
+        $this->assertEquals("rue Franklin", $lieu->getRue());
     }
     public function testRueko(): void
     {
@@ -67,7 +65,7 @@ class LieuTest extends TestCase
     {
         $lieu=new Lieu();
         $lieu->setLongitude(12.65);
-        $this->assertEquals($lieu->getLongitude(),12.65);
+        $this->assertEquals(12.65, $lieu->getLongitude());
     }
 
     public function testlongitudeKo(): void
@@ -80,15 +78,8 @@ class LieuTest extends TestCase
     {
         $lieu=new Lieu();
         $lieu->setLatitude(-152.605);
-        $this->assertEquals($lieu->getLatitude(),-152.605);
+        $this->assertEquals(-152.605, $lieu->getLatitude());
     }
-
-    public function testlatitudeKo(): void
-    {
-        $lieu=new Lieu();
-        $this->assertTrue(true);
-    }
-
 
     public function testVilleKo(): void
     {
