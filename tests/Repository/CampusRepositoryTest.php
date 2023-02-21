@@ -19,7 +19,7 @@ class CampusRepositoryTest extends KernelTestCase
             ->getManager();
     }
 
-    public function testSave(): void
+    public function testSaveAndRemove(): void
     {
         $nombreDenregistrements = $this->entityManager->getRepository(Campus::class)->findAll();
         $faraday = (new Campus())
