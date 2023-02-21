@@ -2,7 +2,7 @@ name: Symfony
 
 on:
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "master" ]
 
 permissions:
   contents: write
