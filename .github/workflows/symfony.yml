@@ -55,7 +55,7 @@ jobs:
           DATABASE_URL: sqlite:///%kernel.project_dir%/var/data.db
         run: vendor/bin/phpunit
       - name: phpunit-coverage-badge
-        uses: timkrase/phpunit-coverage-badge@v1.2.1
+        uses: timkrase/phpunit-coverage-badge@v1.2.0
         with:
           coverage_badge_path: 'badge.svg'
           push_badge: true
