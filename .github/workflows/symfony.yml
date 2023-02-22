@@ -18,6 +18,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.head_ref }}
       - name: Création du fichier .env.local et .env.test.local
         run: |
           touch .env.local
@@ -70,3 +71,7 @@ jobs:
           rm pourcentage.txt
           rm clover.xml
       - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: MaJ du badge de couverture de code
+          commit_user_name: GitHub CI/CD
+          commit_author: Alan Turing <actions@github.com>
