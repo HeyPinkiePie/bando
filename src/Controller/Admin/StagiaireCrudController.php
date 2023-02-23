@@ -24,7 +24,7 @@ class StagiaireCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->hideOnForm(),
-           // TextField::new('password')->hideOnForm(),
+            // TextField::new('password')->hideOnForm(),
             EmailField::new('email'),
             TextField::new('nom'),
             TextField::new('prenom'),
@@ -47,14 +47,15 @@ class StagiaireCrudController extends AbstractCrudController
     {
         if (!$stag instanceof Stagiaire) return;
         //chiffrer le mot de passe avant son envoi
-       // $stag->setPassword("Passw0rd");
-        $stag->setPassword("$2y$13\$zwa64OHleb.MuWUuCBi2yeT6ZHM28wyiSNacOIKhflcdO3OyMYwui");
+        //Bonjour1234+
+        $stag->setPassword("$2y$13\$RYJPMquswPTWjML84hGdcuV7.V8mT6R.m/95MARlOCaA6y0iUbDfi");
+        // $stag->setPassword("$2y$13\$zwa64OHleb.MuWUuCBi2yeT6ZHM28wyiSNacOIKhflcdO3OyMYwui");//Passw0rd
         //par défaut le stagiaire est actif
         $stag->setPremiereConnexion(true);
         $stag->setActif(true);
         //gestion des rôles : USER par défaut, Admin en plus si la case est cochée
-        $roles=["ROLE_USER"];
-        if ($stag->isAdministrateur())$roles[]="ROLE_ADMIN";
+        $roles = ["ROLE_USER"];
+        if ($stag->isAdministrateur()) $roles[] = "ROLE_ADMIN";
         $stag->setRoles($roles);
         parent::persistEntity($em, $stag);
     }
@@ -67,10 +68,12 @@ class StagiaireCrudController extends AbstractCrudController
      * @return void
      */
     public function updateEntity(EntityManagerInterface $entityManager, $stag): void
-    {  if (!$stag instanceof Stagiaire) return;
+    {
+        if (!$stag instanceof Stagiaire) return;
         //mise à jour des rôles lors de l'UPDATE
-        $stag->setRoles([]); $roles=["ROLE_USER"];
-        if ($stag->isAdministrateur())$roles[]="ROLE_ADMIN";
+        $stag->setRoles([]);
+        $roles = ["ROLE_USER"];
+        if ($stag->isAdministrateur()) $roles[] = "ROLE_ADMIN";
         $stag->setRoles($roles);
         parent::persistEntity($entityManager, $stag);
     }
